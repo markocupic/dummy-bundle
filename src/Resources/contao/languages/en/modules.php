@@ -1,6 +1,6 @@
 <?php
 
-$GLOBALS['TL_LANG']['FMD']['dummy_extension_module'] = [
-    'Dummy extension module',
+$GLOBALS['TL_LANG']['FMD']['dummy_module'] = [
+    'Dummy module',
     'A front end module for testing purposes.',
 ];

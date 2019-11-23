@@ -1,13 +1,13 @@
 {
-  "name": "markocupic/dummy-extension-bundle",
-  "description": "Contao dummy extension bundle.",
+  "name": "markocupic/dummy-bundle",
+  "description": "Contao dummy bundle.",
   "keywords": [
     "contao",
+    "contao 4",
     "dummy",
-    "extension",
     "bundle"
   ],
-  "type": "contao-module",
+  "type": "contao-bundle",
   "license": "MIT",
   "authors": [
     {
@@ -19,18 +19,18 @@
   ],
   "version": "1.0.0",
   "support": {
-    "issues": "https://github.com/markocupic/dummy-extension-bundle/issues",
-    "source": "https://github.com/markocupic/dummy-extension-bundle"
+    "issues": "https://github.com/markocupic/dummy-bundle/issues",
+    "source": "https://github.com/markocupic/dummy-bundle"
   },
   "require": {
     "contao/core-bundle":"^4.4"
   },
   "autoload": {
     "psr-4": {
-      "Markocupic\\DummyExtensionBundle\\": "src/"
+      "Markocupic\\DummyBundle\\": "src/"
     }
   },
   "extra": {
-    "contao-manager-plugin": "Markocupic\\DummyExtensionBundle\\ContaoManager\\Plugin"
+    "contao-manager-plugin": "Markocupic\\DummyBundle\\ContaoManager\\Plugin"
   }
 }

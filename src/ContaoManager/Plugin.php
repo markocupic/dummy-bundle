@@ -1,12 +1,12 @@
 <?php
 
-namespace Markocupic\DummyExtensionBundle\ContaoManager;
+namespace Markocupic\DummyBundle\ContaoManager;
 
 use Contao\ManagerPlugin\Bundle\BundlePluginInterface;
 use Contao\ManagerPlugin\Bundle\Config\BundleConfig;
 use Contao\ManagerPlugin\Bundle\Parser\ParserInterface;
 use Contao\CoreBundle\ContaoCoreBundle;
-use Markocupic\DummyExtensionBundle\MarkocupicDummyExtensionBundle;
+use Markocupic\DummyBundle\MarkocupicDummyBundle;
 use Contao\ManagerPlugin\Routing\RoutingPluginInterface;
 use Symfony\Component\Config\Loader\LoaderResolverInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -20,7 +20,7 @@ class Plugin implements RoutingPluginInterface, BundlePluginInterface
     public function getBundles(ParserInterface $parser): array
     {
         return [
-            BundleConfig::create(MarkocupicDummyExtensionBundle::class)
+            BundleConfig::create(MarkocupicDummyBundle::class)
                 ->setLoadAfter([ContaoCoreBundle::class]),
         ];
     }

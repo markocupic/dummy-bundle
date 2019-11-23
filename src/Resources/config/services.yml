@@ -1,10 +1,12 @@
-# config/services.yaml
 services:
-  Markocupic\Controller\FrontendModule\DummyExtensionModuleController:
+
+  markocupic.dummy_bundle.controller.fontend_module.dummy_module_controller:
+    class: Markocupic\DummyBundle\Controller\FrontendModule\DummyModuleController
+    arguments:
+      - '@contao.framework'
+      - '@database_connection'
+      - '%kernel.project_dir%'
     tags:
-    -
-      name: contao.frontend_module
-      category: texts
-      method: getCustomResponse
-      renderer: esi
-      type: dummy_extension_module
+      - { name: contao.frontend_module, category: miscellaneous }
+    public: true
+
