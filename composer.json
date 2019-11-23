@@ -5,8 +5,12 @@
     "contao",
     "contao 4",
     "dummy",
-    "bundle"
+    "bundle",
+    "private bundle",
+    "remove the version property when downloading from packagist",
+    "installation: download the package as a zip-file from github and upload it with contao manager"
   ],
+  "version": "1.0.0",
   "type": "contao-bundle",
   "license": "MIT",
   "authors": [
@@ -17,7 +21,6 @@
       "role": "Developer"
     }
   ],
-  "version": "1.0.0",
   "support": {
     "issues": "https://github.com/markocupic/dummy-bundle/issues",
     "source": "https://github.com/markocupic/dummy-bundle"
