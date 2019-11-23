@@ -1,0 +1,10 @@
+# config/services.yaml
+services:
+  Markocupic\Controller\FrontendModule\DummyExtensionModuleController:
+    tags:
+    -
+      name: contao.frontend_module
+      category: texts
+      method: getCustomResponse
+      renderer: esi
+      type: dummy_extension_module

@@ -1,0 +1,8 @@
+<!-- templates/mod_dummy_extension_module.html5 -->
+<div class="dummy-extension-module">
+    <h1><?= $this->headline ?></h1>
+    <form action="<?= $this->action ?>" method="POST">
+        <input type="hidden" name="REQUEST_TOKEN" value="{{request_token}}">
+        <button type="submit">Submit</button>
+    </form>
+</div>

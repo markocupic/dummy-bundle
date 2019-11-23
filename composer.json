@@ -1,0 +1,36 @@
+{
+  "name": "markocupic/dummy-extension-bundle",
+  "description": "Contao dummy extension bundle.",
+  "keywords": [
+    "contao",
+    "dummy",
+    "extension",
+    "bundle"
+  ],
+  "type": "contao-module",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Marko Cupic",
+      "email": "m.cupic@gmx.ch",
+      "homepage": "https://github.com/markocupic",
+      "role": "Developer"
+    }
+  ],
+  "version": "1.0.0",
+  "support": {
+    "issues": "https://github.com/markocupic/dummy-extension-bundle/issues",
+    "source": "https://github.com/markocupic/dummy-extension-bundle"
+  },
+  "require": {
+    "contao/core-bundle":"^4.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "Markocupic\\DummyExtensionBundle\\": "src/"
+    }
+  },
+  "extra": {
+    "contao-manager-plugin": "Markocupic\\DummyExtensionBundle\\ContaoManager\\Plugin"
+  }
+}
