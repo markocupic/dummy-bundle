@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Class DummyModuleController
  * @package Markocupic\DummyBundle\Controller\FrontendModule
- * @FrontendModule(category="miscellaneous", type="dummy_extension_module")
+ * @FrontendModule(category="miscellaneous", type="dummy_module")
  */
 class DummyModuleController extends AbstractFrontendModuleController
 {
