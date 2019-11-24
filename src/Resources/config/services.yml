@@ -6,6 +6,9 @@ services:
       - '@contao.framework'
       - '@database_connection'
       - '%kernel.project_dir%'
+      - '@security.helper'
+      - '@request_stack'
+      - '@contao.routing.scope_matcher'
     tags:
       - { name: contao.frontend_module, category: miscellaneous }
     public: true

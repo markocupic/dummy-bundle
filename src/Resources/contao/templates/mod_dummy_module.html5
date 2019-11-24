@@ -3,9 +3,14 @@
     <h1><?= $this->headline ?></h1>
     <h2><?= $this->name ?></h2>
     <h3><?= $this->projectDir ?></h3>
+    <h4><?= $this->user ?></h4>
+    <h5><?= $this->scope ?></h5>
+    <h5>Page alias: <?= $this->pageAlias ?></h5>
+
     <form action="<?= ampersand($this->action) ?>" method="POST">
         <input type="hidden" name="FORM_SUBMIT" value="dummy-module">
         <input type="hidden" name="REQUEST_TOKEN" value="{{request_token}}">
+        {{br}}
         <button type="submit">Submit</button>
     </form>
 </div>

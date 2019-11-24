@@ -1,4 +1,11 @@
 <?php
+/*
+ * Copyright Marko Cupic <m.cupic@gmx.ch>, 2019
+ * @author Marko Cupic
+ * @link https://github.com/markocupic/dummy-bundle
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace Markocupic\DummyBundle\ContaoManager;
 
@@ -11,6 +18,10 @@ use Contao\ManagerPlugin\Routing\RoutingPluginInterface;
 use Symfony\Component\Config\Loader\LoaderResolverInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 
+/**
+ * Class Plugin
+ * @package Markocupic\DummyBundle\ContaoManager
+ */
 class Plugin implements RoutingPluginInterface, BundlePluginInterface
 {
     /**

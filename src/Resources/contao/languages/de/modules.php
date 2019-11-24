@@ -7,6 +7,7 @@
  * file that was distributed with this source code.
  */
 
-
-// contao/dca/tl_module.php
-$GLOBALS['TL_DCA']['tl_module']['palettes']['dummy_module'] = '{title_legend},name,headline,type;{redirect_legend},jumpTo';
+$GLOBALS['TL_LANG']['FMD']['dummy_module'] = [
+    'Dummy Modul',
+    'Ein Frontend Dummy Modul für Testzwecke.',
+];

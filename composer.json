@@ -6,11 +6,12 @@
     "contao 4",
     "dummy",
     "bundle",
+    "skeleton",
     "private bundle",
     "remove the version property when downloading from packagist",
     "installation: download the package as a zip-file from github and upload it with contao manager"
   ],
-  "version": "1.0.1",
+  "version": "1.0.2",
   "type": "contao-bundle",
   "license": "MIT",
   "authors": [
