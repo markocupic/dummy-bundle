@@ -10,11 +10,14 @@
 namespace Markocupic\DummyBundle\Controller\FrontendModule;
 
 use Contao\BackendUser;
+use Contao\Config;
 use Contao\CoreBundle\Controller\FrontendModule\AbstractFrontendModuleController;
 use Contao\CoreBundle\Exception\RedirectResponseException;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\CoreBundle\Routing\ScopeMatcher;
 use Contao\CoreBundle\ServiceAnnotation\FrontendModule;
+use Contao\Date;
+use Contao\FormTextField;
 use Contao\FrontendUser;
 use Contao\ModuleModel;
 use Contao\PageModel;
@@ -123,14 +126,35 @@ class DummyModuleController extends AbstractFrontendModuleController
      */
     protected function getResponse(Template $template, ModuleModel $model, Request $request): ?Response
     {
-        // Redirect if the form has been submitted
-        if ($request->isMethod('post'))
+        // Generate text field
+        $opt = [
+            'id'        => 'myTextField',
+            'name'      => 'myTextField',
+            'label'     => 'My text field',
+            'mandatory' => true
+        ];
+        $widget = $this->framework->createInstance(FormTextField::class, [$opt]);
+
+        // Preset value
+        if (!$request->isMethod('post') && $request->get($widget->name) == '')
         {
-            if (null !== ($redirectPage = PageModel::findByPk($model->jumpTo)))
+            $widget->value = 'Holy moly, please write something in there!';
+        }
+
+        // Redirect if the form has been submitted
+        if ($request->isMethod('post') && $request->get($widget->name) !== '')
+        {
+            $widget->validate();
+            if (!$widget->hasErrors())
             {
-                throw new RedirectResponseException($redirectPage->getAbsoluteUrl());
+                if (null !== ($redirectPage = PageModel::findByPk($model->jumpTo)))
+                {
+                    throw new RedirectResponseException($redirectPage->getAbsoluteUrl());
+                }
             }
         }
+
+        $template->textField = $widget->parse();
 
         // Get the logged in user object
         $template->user = 'Please log in to see your username';
@@ -154,6 +178,13 @@ class DummyModuleController extends AbstractFrontendModuleController
         $template->pageAlias = $this->page->alias;
         $template->projectDir = 'The projectDir is located in "' . $this->projectDir . '".';
         $template->action = $request->getUri();
+
+        // Get contao date and config adapter
+        $date = $this->framework->getAdapter(Date::class);
+        $config = $this->framework->getAdapter(Config::class);
+
+        // Get the current date
+        $template->date = $date->parse($config->get('dateFormat'));
 
         return $template->getResponse();
     }

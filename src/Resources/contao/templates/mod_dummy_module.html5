@@ -6,10 +6,15 @@
     <h4><?= $this->user ?></h4>
     <h5><?= $this->scope ?></h5>
     <h5>Page alias: <?= $this->pageAlias ?></h5>
+    <h6>Today we are celebrating: <?= $this->date ?></h6>
+
 
     <form action="<?= ampersand($this->action) ?>" method="POST">
         <input type="hidden" name="FORM_SUBMIT" value="dummy-module">
         <input type="hidden" name="REQUEST_TOKEN" value="{{request_token}}">
+
+        <?= $this->textField ?>
+
         {{br}}
         <button type="submit">Submit</button>
     </form>
