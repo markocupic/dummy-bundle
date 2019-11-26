@@ -11,7 +11,7 @@
     "remove the version property when downloading from packagist",
     "installation: download the package as a zip-file from github and upload it with contao manager"
   ],
-  "version": "1.0.3",
+  "version": "1.0.4",
   "type": "contao-bundle",
   "license": "MIT",
   "authors": [

@@ -136,13 +136,13 @@ class DummyModuleController extends AbstractFrontendModuleController
         $widget = $this->framework->createInstance(FormTextField::class, [$opt]);
 
         // Preset value
-        if (!$request->isMethod('post') && $request->get($widget->name) == '')
+        if (!$request->isMethod('post') && $request->request->get($widget->name) == '')
         {
             $widget->value = 'Holy moly, please write something in there!';
         }
 
         // Redirect if the form has been submitted
-        if ($request->isMethod('post') && $request->get($widget->name) !== '')
+        if ($request->isMethod('post') && $request->request->get($widget->name) !== '')
         {
             $widget->validate();
             if (!$widget->hasErrors())
