@@ -13,7 +13,6 @@ use Contao\BackendUser;
 use Contao\Config;
 use Contao\CoreBundle\Controller\FrontendModule\AbstractFrontendModuleController;
 use Contao\CoreBundle\Exception\RedirectResponseException;
-use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\CoreBundle\Routing\ScopeMatcher;
 use Contao\CoreBundle\ServiceAnnotation\FrontendModule;
 use Contao\Date;
@@ -23,7 +22,6 @@ use Contao\ModuleModel;
 use Contao\PageModel;
 use Contao\System;
 use Contao\Template;
-use Doctrine\DBAL\Connection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
@@ -64,28 +62,19 @@ class DummyModuleController extends AbstractFrontendModuleController
         // Get rootDir
         $this->projectDir = System::getContainer()->getParameter('kernel.project_dir');
 
-        // Return empty string, if user is not logged in as a frontend user
-        if ($this->isFrontend())
-        {
-            if (!$this->get('security.helper')->getUser() instanceof FrontendUser)
-            {
-                return new Response('', Response::HTTP_NO_CONTENT);
-            }
-        }
-
         // Call the parent method
         return parent::__invoke($request, $model, $section, $classes);
     }
 
     /**
+     * Get subscribed services
      * @return array
      */
     public static function getSubscribedServices(): array
     {
         $services = parent::getSubscribedServices();
 
-        $services['contao.framework'] = ContaoFramework::class;
-        $services['database_connection'] = Connection::class;
+        // $services['contao.framework'] is loaded in parent::getSubscribedServices()
         $services['security.helper'] = Security::class;
         $services['request_stack'] = RequestStack::class;
         $services['contao.routing.scope_matcher'] = ScopeMatcher::class;
@@ -102,13 +91,20 @@ class DummyModuleController extends AbstractFrontendModuleController
      */
     protected function getResponse(Template $template, ModuleModel $model, Request $request): ?Response
     {
+        // Display empty string if frontend user is not logged in
+        if (!$this->get('security.helper')->getUser() instanceof FrontendUser)
+        {
+            return new Response('', Response::HTTP_NO_CONTENT);
+        }
+
         // Generate text field
         $opt = [
             'id'        => 'myTextField',
             'name'      => 'myTextField',
             'label'     => 'My text field',
-            'mandatory' => true
+            'mandatory' => true,
         ];
+
         /** @var  FormTextField $widget */
         $widget = $this->get('contao.framework')->createInstance(FormTextField::class, [$opt]);
 
@@ -135,15 +131,11 @@ class DummyModuleController extends AbstractFrontendModuleController
         $template->textField = $widget->parse();
 
         // Get the logged in user object
-        $template->user = 'Please log in to see your username';
-        if (($user = $this->get('security.helper')->getUser()) instanceof BackendUser)
-        {
-            $template->user = 'You are logged in as backend user ' . $user->getUsername() . ' (' . $user->email . ')';
-        }
+        $template->userText = 'Please log in to see your username';
 
         if (($user = $this->get('security.helper')->getUser()) instanceof FrontendUser)
         {
-            $template->user = 'You are logged in as frontend user ' . $user->getUsername() . ' (' . $user->email . ')';
+            $template->userText = 'You are logged in as frontend user ' . $user->getUsername() . ' (' . $user->email . ')';
         }
 
         // Get the contao scope (TL_MODE will be deprecated in future releases)
@@ -157,15 +149,14 @@ class DummyModuleController extends AbstractFrontendModuleController
         $template->projectDir = 'The projectDir is located in "' . $this->projectDir . '".';
         $template->action = $request->getUri();
 
-        // Get contao date and config adapter
-        /** @var Date $date */
-        $date = $this->get('contao.framework')->getAdapter(Date::class);
+        /** @var Date $dateAdapter */
+        $dateAdapter = $this->get('contao.framework')->getAdapter(Date::class);
 
-        /** @var Config $config */
-        $config = $this->get('contao.framework')->getAdapter(Config::class);
+        /** @var Config $configAdapter */
+        $configAdapter = $this->get('contao.framework')->getAdapter(Config::class);
 
         // Get the current date
-        $template->date = $date->parse($config->get('dateFormat'));
+        $template->date = $dateAdapter->parse($configAdapter->get('dateFormat'));
 
         return $template->getResponse();
     }
@@ -176,7 +167,7 @@ class DummyModuleController extends AbstractFrontendModuleController
      */
     public function isBackend()
     {
-        return $this->get('contao.routing.scope_matcher')->isBackendRequest($this->get('request_stack')->getCurrentRequest());
+        return $this->get('request_stack')->getCurrentRequest() !== null ? $this->get('contao.routing.scope_matcher')->isBackendRequest($this->get('request_stack')->getCurrentRequest()) : false;
     }
 
     /**
@@ -185,6 +176,6 @@ class DummyModuleController extends AbstractFrontendModuleController
      */
     public function isFrontend()
     {
-        return $this->get('contao.routing.scope_matcher')->isFrontendRequest($this->get('request_stack')->getCurrentRequest());
+        return $this->get('request_stack')->getCurrentRequest() !== null ? $this->get('contao.routing.scope_matcher')->isFrontendRequest($this->get('request_stack')->getCurrentRequest()) : false;
     }
 }
