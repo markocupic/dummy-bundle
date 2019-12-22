@@ -97,6 +97,9 @@ class DummyModuleController extends AbstractFrontendModuleController
             return new Response('', Response::HTTP_NO_CONTENT);
         }
 
+        // Load language file
+        System::loadLanguageFile('modules');
+
         // Generate text field
         $opt = [
             'id'        => 'myTextField',
@@ -146,7 +149,11 @@ class DummyModuleController extends AbstractFrontendModuleController
 
         // Get the page alias
         $template->pageAlias = $this->page->alias;
+
+        // Project dir aka TL_ROOT
         $template->projectDir = 'The projectDir is located in "' . $this->projectDir . '".';
+
+        // Get uri
         $template->action = $request->getUri();
 
         /** @var Date $dateAdapter */

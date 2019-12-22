@@ -1,7 +1,12 @@
 <!-- templates/mod_dummy_module.html5 -->
 <div class="dummy-module">
+
+    <h1>Her comes the <?= $this->trans('FMD.dummy_module.0') ?></h1>
+    <h3><?= $this->trans('FMD.dummy_module.1') ?></h3>
+
     <h1><?= $this->headline ?></h1>
-    <h2><?= $this->name ?></h2>
+
+    <h3><?= $this->name ?></h3>
     <h3><?= $this->projectDir ?></h3>
     <h4><?= $this->user ?></h4>
     <h5><?= $this->scope ?></h5>
@@ -15,4 +20,5 @@
         {{br}}
         <button type="submit">Submit</button>
     </form>
+
 </div>
