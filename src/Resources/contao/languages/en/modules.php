@@ -9,5 +9,5 @@
 
 $GLOBALS['TL_LANG']['FMD']['dummy_module'] = [
     'Dummy module',
-    'A front end module for testing purposes.',
+    'A contao 4 front end module for testing purposes.',
 ];

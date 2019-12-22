@@ -1,15 +1,8 @@
 services:
-
-  markocupic.dummy_bundle.controller.fontend_module.dummy_module_controller:
-    class: Markocupic\DummyBundle\Controller\FrontendModule\DummyModuleController
-    arguments:
-      - '@contao.framework'
-      - '@database_connection'
-      - '%kernel.project_dir%'
-      - '@security.helper'
-      - '@request_stack'
-      - '@contao.routing.scope_matcher'
+  Markocupic\DummyBundle\Controller\FrontendModule\DummyModuleController:
+    calls:
+    - ['setContainer', ['@Psr\Container\ContainerInterface']]
     tags:
-      - { name: contao.frontend_module, category: miscellaneous }
+    - { name: contao.frontend_module, category: miscellaneous }
+    - { name: container.service_subscriber }
     public: true
-
