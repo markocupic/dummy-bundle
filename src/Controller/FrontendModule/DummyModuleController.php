@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * Copyright Marko Cupic <m.cupic@gmx.ch>, 2019
  * @author Marko Cupic
@@ -9,12 +12,10 @@
 
 namespace Markocupic\DummyBundle\Controller\FrontendModule;
 
-use Contao\BackendUser;
 use Contao\Config;
 use Contao\CoreBundle\Controller\FrontendModule\AbstractFrontendModuleController;
 use Contao\CoreBundle\Exception\RedirectResponseException;
 use Contao\CoreBundle\Routing\ScopeMatcher;
-use Contao\CoreBundle\ServiceAnnotation\FrontendModule;
 use Contao\Date;
 use Contao\FormTextField;
 use Contao\FrontendUser;
@@ -26,6 +27,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Security;
+use Contao\CoreBundle\ServiceAnnotation\FrontendModule;
 
 /**
  * Class DummyModuleController
@@ -91,20 +93,18 @@ class DummyModuleController extends AbstractFrontendModuleController
      */
     protected function getResponse(Template $template, ModuleModel $model, Request $request): ?Response
     {
-        // Display empty string if frontend user is not logged in
-        if (!$this->get('security.helper')->getUser() instanceof FrontendUser)
-        {
-            return new Response('', Response::HTTP_NO_CONTENT);
-        }
-
         // Load language file
         System::loadLanguageFile('modules');
+        System::loadLanguageFile('default');
+
+        // Get translator
+        $translator = $this->get('translator');
 
         // Generate text field
         $opt = [
             'id'        => 'myTextField',
             'name'      => 'myTextField',
-            'label'     => 'My text field',
+            'label'     => $translator->trans('MSC.dummy_module_text_field_lbl.0', [], 'contao_default'),
             'mandatory' => true,
         ];
 
@@ -114,7 +114,7 @@ class DummyModuleController extends AbstractFrontendModuleController
         // Preset value
         if (!$request->isMethod('post') && $request->request->get($widget->name) == '')
         {
-            $widget->value = 'Holy moly, please write something in there!';
+            $widget->value = $translator->trans('MSC.dummy_module_text_1', [], 'contao_default');
         }
 
         // Redirect if the form has been submitted
@@ -134,24 +134,26 @@ class DummyModuleController extends AbstractFrontendModuleController
         $template->textField = $widget->parse();
 
         // Get the logged in user object
-        $template->userText = 'Please log in to see your username';
+        $template->userText = $translator->trans('MSC.dummy_module_not_logged_in_text', [], 'contao_default');
 
-        if (($user = $this->get('security.helper')->getUser()) instanceof FrontendUser)
+        /** @var FrontendUser $user */
+        $user = $this->get('security.helper')->getUser();
+        if ($user instanceof FrontendUser)
         {
-            $template->userText = 'You are logged in as frontend user ' . $user->getUsername() . ' (' . $user->email . ')';
+            $template->feUserLoggedIn = true;
+            $template->userText = $translator->trans('MSC.dummy_module_logged_in_as_fe_user_text', [implode(' ', [$user->firstname, $user->lastname]), $user->email], 'contao_default');
         }
 
         // Get the contao scope (TL_MODE will be deprecated in future releases)
-        $scope = 'No scope!';
-        $scope = $this->isFrontend() ? 'The scope of the current request is Frontend.' : $scope;
-        $scope = $this->isBackend() ? 'The scope of the current request is Backend.' : $scope;
+        $scope = $translator->trans('MSC.dummy_module_no_scope_text', [], 'contao_default');
+        $scope = $this->isFrontend() ? $translator->trans('MSC.dummy_module_scope_frontend_text', [], 'contao_default') : $scope;
         $template->scope = $scope;
 
         // Get the page alias
         $template->pageAlias = $this->page->alias;
 
         // Project dir aka TL_ROOT
-        $template->projectDir = 'The projectDir is located in "' . $this->projectDir . '".';
+        $template->projectDir = $translator->trans('MSC.dummy_module_project_dir_location_text', [$this->projectDir], 'contao_default');
 
         // Get uri
         $template->action = $request->getUri();
@@ -172,17 +174,31 @@ class DummyModuleController extends AbstractFrontendModuleController
      * Identify the Contao scope (TL_MODE) of the current request
      * @return bool
      */
-    public function isBackend()
+    protected function isFrontend(): bool
     {
-        return $this->get('request_stack')->getCurrentRequest() !== null ? $this->get('contao.routing.scope_matcher')->isBackendRequest($this->get('request_stack')->getCurrentRequest()) : false;
+        if ($this->get('contao.framework')->isInitialized() && $this->get('request_stack')->getMasterRequest() && !$this->isBackend())
+        {
+            return true;
+        }
+        return false;
     }
 
     /**
      * Identify the Contao scope (TL_MODE) of the current request
      * @return bool
      */
-    public function isFrontend()
+    protected function isBackend(): bool
     {
-        return $this->get('request_stack')->getCurrentRequest() !== null ? $this->get('contao.routing.scope_matcher')->isFrontendRequest($this->get('request_stack')->getCurrentRequest()) : false;
+        if ($this->get('contao.framework')->isInitialized())
+        {
+            if ($this->get('request_stack') !== null)
+            {
+                if ($this->get('request_stack')->getMasterRequest() !== null)
+                {
+                    return $this->get('contao.routing.scope_matcher')->isBackendRequest($this->get('request_stack')->getMasterRequest());
+                }
+            }
+        }
+        return false;
     }
 }

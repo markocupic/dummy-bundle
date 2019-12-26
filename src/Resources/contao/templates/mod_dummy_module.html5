@@ -1,24 +1,38 @@
 <!-- templates/mod_dummy_module.html5 -->
-<div class="dummy-module">
+<?php $this->extend('block_searchable'); ?>
 
-    <h1>Her comes the <?= $this->trans('FMD.dummy_module.0') ?></h1>
-    <h3><?= $this->trans('FMD.dummy_module.1') ?></h3>
+<?php $this->block('content'); ?>
 
-    <h1><?= $this->headline ?></h1>
+<!-- Show the module name -->
+<h3><?= $this->name ?></h3>
 
-    <h3><?= $this->name ?></h3>
-    <h3><?= $this->projectDir ?></h3>
-    <h4><?= $this->user ?></h4>
-    <h5><?= $this->scope ?></h5>
-    <h6>Page alias: <?= $this->pageAlias ?></h6>
-    <h7>Today we are celebrating: <?= $this->date ?></h7>
+<!-- Show the project root -->
+<h3><?= $this->projectDir ?></h3>
 
-    <form action="<?= ampersand($this->action) ?>" method="POST">
-        <input type="hidden" name="FORM_SUBMIT" value="dummy-module">
-        <input type="hidden" name="REQUEST_TOKEN" value="{{request_token}}">
-        <?= $this->textField ?>
-        {{br}}
-        <button type="submit">Submit</button>
-    </form>
+<?php if($this->feUserLoggedIn): ?>
+<!-- Show username -->
+<h4><?= $this->user ?></h4>
+<?php endif; ?>
 
-</div>
+<!-- Welcome text -->
+<p><?= $this->userText ?></p>
+
+<!-- Show the contao scope (TL_MODE) -->
+<h5><?= $this->scope ?></h5>
+
+<!-- Show page alias -->
+<h6><?= $this->trans('MSC.dummy_module_page_alias', [], 'contao_default') ?>: <?= $this->pageAlias ?></h6>
+
+<!-- Show current date -->
+<h7><?= $this->trans('MSC.dummy_module_date_text', [$this->date], 'contao_default') ?></h7>
+
+<!-- Display a form -->
+<form action="<?= ampersand($this->action) ?>" method="POST">
+    <input type="hidden" name="FORM_SUBMIT" value="dummy-module">
+    <input type="hidden" name="REQUEST_TOKEN" value="{{request_token}}">
+    <?= $this->textField ?>
+    {{br}}
+    <button type="submit"><?= $this->trans('MSC.dummy_module_button_lbl', [], 'contao_default') ?></button>
+</form>
+
+<?php $this->endblock(); ?>
