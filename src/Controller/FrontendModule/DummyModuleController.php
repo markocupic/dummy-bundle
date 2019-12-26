@@ -75,7 +75,8 @@ class DummyModuleController extends AbstractFrontendModuleController
     {
         $services = parent::getSubscribedServices();
 
-        // $services['contao.framework'] is loaded in parent::getSubscribedServices()
+        // Do not set $services['contao.framework'] because it is done already in parent::getSubscribedServices()
+        // Do not set $services['translator'] because it is done already in parent::getSubscribedServices()
         $services['security.helper'] = Security::class;
         $services['request_stack'] = RequestStack::class;
         $services['contao.routing.scope_matcher'] = ScopeMatcher::class;
