@@ -49,7 +49,6 @@ class DummyModuleController extends AbstractFrontendModuleController
 
     /**
      * Like generate-method in past contao modules
-     * ! This method is optional and can be used, if the response should contain an empty string only
      * @param Request $request
      * @param ModuleModel $model
      * @param string $section
