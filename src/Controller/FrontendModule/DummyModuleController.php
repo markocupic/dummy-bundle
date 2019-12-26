@@ -133,6 +133,9 @@ class DummyModuleController extends AbstractFrontendModuleController
         // Parse form field
         $template->textField = $widget->parse();
 
+        // Get module name from Contao\ModuleModel $model
+        $template->moduleName = $model->name;
+
         // Get the logged in user object
         $template->userText = $translator->trans('MSC.dummy_module_not_logged_in_text', [], 'contao_default');
 

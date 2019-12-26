@@ -4,7 +4,7 @@
 <?php $this->block('content'); ?>
 
 <!-- Show the module name -->
-<h3><?= $this->name ?></h3>
+<h3><?= $this->moduleName ?></h3>
 
 <!-- Show the project root -->
 <h3><?= $this->projectDir ?></h3>
