@@ -6,3 +6,11 @@ services:
     - { name: contao.frontend_module, category: miscellaneous }
     - { name: container.service_subscriber }
     public: true
+
+  Markocupic\DummyBundle\Controller\FrontendModule\VueDummyModuleController:
+    calls:
+    - ['setContainer', ['@Psr\Container\ContainerInterface']]
+    tags:
+    - { name: contao.frontend_module, category: miscellaneous }
+    - { name: container.service_subscriber }
+    public: true

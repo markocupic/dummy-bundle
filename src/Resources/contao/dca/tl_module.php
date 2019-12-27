@@ -10,3 +10,4 @@
 
 // contao/dca/tl_module.php
 $GLOBALS['TL_DCA']['tl_module']['palettes']['dummy_module'] = '{title_legend},name,headline,type;{redirect_legend},jumpTo';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['vue_dummy_module'] = '{title_legend},name,headline,type';

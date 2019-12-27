@@ -8,6 +8,14 @@
  */
 
 $GLOBALS['TL_LANG']['FMD']['dummy_module'] = [
-    'Dummy module',
-    'A contao 4 front end module for testing purposes.',
+    '"Hello world" dummy module',
+    'A contao 4 "hello world" front end module for testing purposes.',
 ];
+
+$GLOBALS['TL_LANG']['FMD']['vue_dummy_module'] = [
+    'Vue.js dummy module',
+    'A Vue.js frontend dummy module for testing purposes.',
+];
+
+
+

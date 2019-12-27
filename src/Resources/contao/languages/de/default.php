@@ -17,4 +17,5 @@ $GLOBALS['TL_LANG']['MSC']['dummy_module_project_dir_location_text'] = 'Das Root
 $GLOBALS['TL_LANG']['MSC']['dummy_module_page_alias'] = 'Seitenalias';
 $GLOBALS['TL_LANG']['MSC']['dummy_module_date_text'] = 'Heute feiern wir den %s.';
 $GLOBALS['TL_LANG']['MSC']['dummy_module_button_lbl'] = 'Absenden';
+$GLOBALS['TL_LANG']['MSC']['dummy_module_you_posted_text'] = 'Sie haben gepostet';
 

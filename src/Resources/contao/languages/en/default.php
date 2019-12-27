@@ -17,4 +17,4 @@ $GLOBALS['TL_LANG']['MSC']['dummy_module_project_dir_location_text'] = 'The proj
 $GLOBALS['TL_LANG']['MSC']['dummy_module_page_alias'] = 'Page alias';
 $GLOBALS['TL_LANG']['MSC']['dummy_module_date_text'] = 'Today we are celebrating %s.';
 $GLOBALS['TL_LANG']['MSC']['dummy_module_button_lbl'] = 'Submit';
-
+$GLOBALS['TL_LANG']['MSC']['dummy_module_you_posted_text'] = 'You posted';

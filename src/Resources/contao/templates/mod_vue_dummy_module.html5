@@ -1,0 +1,69 @@
+<?php $GLOBALS['TL_JAVASCRIPT'][] = 'https://cdn.jsdelivr.net/npm/vue/dist/vue.js'; ?>
+
+<!-- templates/mod_vue_dummy_module.html5 -->
+<?php $this->extend('block_searchable'); ?>
+
+<?php $this->block('content'); ?>
+
+<div id="vueDummyModule">
+
+    <div v-if="response.post.textarea"><?= $this->trans('MSC.dummy_module_you_posted_text', [], 'contao_default') ?>:{{br}}
+        <div class="alert alert-success" role="alert">
+            {{ response.post.textarea }}
+        </div>
+    </div>
+
+    <?= $this->textarea ?>
+    <p><?= $this->trans('MSC.dummy_module_text_field_lbl.1', [], 'contao_default') ?></p>
+    <button v-on:click="buttonClick"><?= $this->trans('MSC.dummy_module_button_lbl', [], 'contao_default') ?></button>
+
+</div>
+
+<script>
+    var requestToken = '{{REQUEST_TOKEN}}';
+    new Vue({
+        el: '#vueDummyModule',
+        data: {
+            response: {
+                post: {}
+            },
+        },
+        created: function created() {
+            //
+        },
+        methods: {
+
+            /**
+             * Using fetch & pure js
+             */
+            buttonClick: function buttonClick() {
+
+                let self = this;
+
+                let data = new FormData();
+                data.append( "REQUEST_TOKEN", requestToken );
+                data.append( "textarea", document.querySelector('#ctrl_myTextarea').value );
+                fetch(window.location.href,
+                    {
+                        method: "POST",
+                        body: data,
+                        headers:{
+                            // Set x-requested-with header,
+                            // thus Contao\Environment::get('isAjaxRequest') will
+                            // recognize the ajax request
+                            'x-requested-with': 'XMLHttpRequest'
+                        },
+                    })
+                    .then(function(res){ return res.json(); })
+                    .then(function(json){
+                        let value = json['data']['post']['textarea'] != null ? json['data']['post']['textarea'] : '';
+                        // Set new/overwrite property
+                        self.$set(self.response.post, 'textarea', value);
+                    });
+            },
+
+        }
+    });
+</script>
+
+<?php $this->endblock(); ?>
