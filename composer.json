@@ -11,7 +11,7 @@
     "remove the version property when downloading from packagist",
     "installation: download the package as a zip-file from github and upload it with contao manager"
   ],
-  "version": "1.0.7",
+  "version": "1.0.8",
   "type": "contao-bundle",
   "license": "MIT",
   "authors": [
@@ -27,7 +27,7 @@
     "source": "https://github.com/markocupic/dummy-bundle"
   },
   "require": {
-    "contao/core-bundle":"^4.4"
+    "contao/core-bundle":"^4.8"
   },
   "autoload": {
     "psr-4": {
