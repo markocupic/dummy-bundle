@@ -10,12 +10,9 @@ The bundle contains 3 Contao Frontend Modules
 
 
 ## Installation 
-Download the bundle in github: https://github.com/markocupic/dummy-bundle/archive/master.zip
-
-Then use Contao Manager "Pakete hochladen".
-
-Run database install tool.
-
-For the pixabay module a API key is required. https://pixabay.com/api/docs/
+* Download the bundle in github: https://github.com/markocupic/dummy-bundle/archive/master.zip
+* Then use Contao Manager "Pakete hochladen".
+* Run database install tool.
+* For the pixabay module a API key is required. https://pixabay.com/api/docs/
 
 ### See https://docs.contao.org/dev/
