@@ -1,0 +1,90 @@
+<?php $GLOBALS['TL_JAVASCRIPT'][] = 'https://cdn.jsdelivr.net/npm/vue/dist/vue.js'; ?>
+<?php $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/markocupicdummy/js/VuePixabayBabel.js' ?>
+
+<!-- templates/mod_vue_pixabay_module.html5 -->
+<?php $this->extend('block_searchable'); ?>
+
+<?php $this->block('content'); ?>
+
+<div id="<?= $this->vueElementId ?>" v-cloak>
+    <div>
+        <label><?= $this->trans('MSC.dummy_module_pixabayCategories') ?></label>
+        <select v-model="activeCategory" @change="onChange()" name="pixabayCategorySelect" id="ctrl_pixabayCategorySelect" required="required" class="select">
+            <option v-for="category in options.searchParams.categories" v-bind:value="category">{{ category }}</option>
+        </select>
+    </div>
+    {{br}}
+    <div v-if="total > 0" class="row">
+        <div v-for="item in items" class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 pb-1">
+            <a v-bind:href="item.largeImageURL" title="bild" data-lightbox="pixabayGal<?= $this->id ?>" class="cboxElement">
+                <img v-bind:src="item.webformatURL" class="cboxElement img-fluid">
+            </a>
+            <div class="caption">
+                <div class="d-block">
+                    <i class="fas fa-cloud-download-alt"> {{ item.downloads }}</i>
+                </div>
+                <div class="d-block">
+                    <a v-bind:href="item.pageURL" target="_blank">
+                        <i class="fas fa-user"> {{ item.user }}</i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="d-block">
+            <button v-if="!busy && !allImagesLoaded" @click="onLoadMore" class="btn btn-primary btn-lg btn-block">Load more</button>
+        </div>
+        {{br}}
+        <div class="d-block">
+            <p class="small">{{ itemsLoaded}}/{{ total }} <?= $this->trans('MSC.dummy_module_imagesLoaded') ?>.</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    new VuePixabayImageCollection({
+        // Mandatory properties
+        'el': '<?= $this->vueElementId ?>',
+        'pixabayApiKey': '<?= $this->pixabay_api_key ?>',
+        // Optional properties (see https://pixabay.com/api/docs/ for more)
+        'searchParams': {
+            'lang': 'en',
+            'categories': ['fashion', 'nature', 'backgrounds', 'science', 'education', 'people', 'feelings', 'religion', 'health', 'places', 'animals', 'industry', 'food', 'computer', 'sports', 'transportation', 'travel', 'buildings', 'business', 'music'],
+            // Accepted values: "all", "horizontal", "vertical"
+            'orientation': 'horizontal',
+            'safesearch': true,
+            'editors_choice': true,
+            //Accepted values: "popular" or "latest"
+            'order': 'popular',
+            'per_page': 100,
+            'editors_choice': true,
+        },
+        'callbacks': {
+            'oncreated': function (vue) {
+                //
+            },
+            'onbeforeload': function (vue) {
+                //
+            },
+            'onchange': function (vue) {
+                //
+            },
+            'onloadmore': function (vue) {
+                //
+            },
+            'onload': function (json, vue) {
+                jQuery(function ($) {
+                    $('a[data-lightbox]').map(function () {
+                        $(this).colorbox({
+                            loop: !1,
+                            rel: $(this).attr('data-lightbox'),
+                            maxWidth: '95%',
+                            maxHeight: '95%'
+                        })
+                    });
+                });
+            }
+        }
+    });
+</script>
+
+<?php $this->endblock(); ?>

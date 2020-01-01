@@ -3,7 +3,7 @@ services:
     calls:
     - ['setContainer', ['@Psr\Container\ContainerInterface']]
     tags:
-    - { name: contao.frontend_module, category: miscellaneous }
+    - { name: contao.frontend_module, category: dummy }
     - { name: container.service_subscriber }
     public: true
 
@@ -11,6 +11,14 @@ services:
     calls:
     - ['setContainer', ['@Psr\Container\ContainerInterface']]
     tags:
-    - { name: contao.frontend_module, category: miscellaneous }
+    - { name: contao.frontend_module, category: dummy }
+    - { name: container.service_subscriber }
+    public: true
+
+  Markocupic\DummyBundle\Controller\FrontendModule\VuePixabayModuleController:
+    calls:
+    - ['setContainer', ['@Psr\Container\ContainerInterface']]
+    tags:
+    - { name: contao.frontend_module, category: dummy }
     - { name: container.service_subscriber }
     public: true

@@ -18,4 +18,6 @@ $GLOBALS['TL_LANG']['MSC']['dummy_module_page_alias'] = 'Seitenalias';
 $GLOBALS['TL_LANG']['MSC']['dummy_module_date_text'] = 'Heute feiern wir den %s.';
 $GLOBALS['TL_LANG']['MSC']['dummy_module_button_lbl'] = 'Absenden';
 $GLOBALS['TL_LANG']['MSC']['dummy_module_you_posted_text'] = 'Sie haben gepostet';
+$GLOBALS['TL_LANG']['MSC']['dummy_module_pixabayCategories'] = 'Pixabay Kategorien';
+$GLOBALS['TL_LANG']['MSC']['dummy_module_imagesLoaded'] = 'Bildern geladen';
 
