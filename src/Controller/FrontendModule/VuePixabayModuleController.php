@@ -83,10 +83,7 @@ class VuePixabayModuleController extends AbstractFrontendModuleController
 
         $template->vueElementId = 'vuePixabayDummyContainer_' . $this->id;
 
-
         return $template->getResponse();
     }
-
-
 
 }
