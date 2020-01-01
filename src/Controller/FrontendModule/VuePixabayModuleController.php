@@ -79,7 +79,6 @@ class VuePixabayModuleController extends AbstractFrontendModuleController
         $translator = $this->get('translator');
 
         // Load language file
-        System::loadLanguageFile('modules');
         System::loadLanguageFile('default');
 
         $template->vueElementId = 'vuePixabayDummyContainer_' . $this->id;

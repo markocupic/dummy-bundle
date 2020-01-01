@@ -1,6 +1,6 @@
 {
   "name": "markocupic/dummy-bundle",
-  "description": "Contao dummy bundle.",
+  "description": "Contao dummy bundles.",
   "keywords": [
     "contao",
     "contao 4",
@@ -8,10 +8,12 @@
     "bundle",
     "skeleton",
     "private bundle",
+    "pixabay",
+    "vue.js",
     "remove the version property when downloading from packagist",
     "installation: download the package as a zip-file from github and upload it with contao manager"
   ],
-  "version": "1.0.9",
+  "version": "1.0.10",
   "type": "contao-bundle",
   "license": "MIT",
   "authors": [
