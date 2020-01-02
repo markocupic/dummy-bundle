@@ -18,10 +18,10 @@ var VuePixabayImageCollection = // Pixabay limit
         _classCallCheck(this, VuePixabayImageCollection);
 
         var VuePixabayImageCollectionOptions = options;
+
         /**
          * Create new Vue.js instance
          */
-
         new Vue({
             el: '#' + VuePixabayImageCollectionOptions.el,
 
@@ -46,13 +46,14 @@ var VuePixabayImageCollection = // Pixabay limit
             created: function created() {
                 var self = this;
                 self.options = VuePixabayImageCollectionOptions;
-                self.setSearchParam('page', 1); // Set first option in the select menu as the active category
+                self.setSearchParam('page', 1);
 
+                // Set first option in the select menu as the active category
                 if (self.activeCategory === '') {
                     self.activeCategory = self.options.searchParams.categories[0];
-                } // Trigger oncreated callback
+                }
 
-
+                // Trigger oncreated callback
                 if (self.options.callbacks.oncreated && typeof self.options.callbacks.oncreated === "function") {
                     self.options.callbacks.oncreated(self);
                 } // Fetch json from pixabay API
@@ -65,7 +66,8 @@ var VuePixabayImageCollection = // Pixabay limit
              * Target select menu
              */
             mounted: function mounted() {
-                var self = this; // You can not acces to this.$el before the vue instance is mounted,
+                var self = this;
+                // You can not acces to this.$el before the vue instance is mounted,
                 // see https://stackoverflow.com/questions/45402403/property-this-el-undefined-on-single-file-component-vue-js
                 // and https://vuejs.org/v2/guide/instance.html#Instance-Lifecycle-Hooks
 
@@ -120,14 +122,16 @@ var VuePixabayImageCollection = // Pixabay limit
                         }
                     }
 
-                    self.url = url; // Trigger onbeforeload callback
+                    self.url = url;
 
+                    // Trigger onbeforeload callback
                     if (self.options.callbacks.onbeforeload && typeof self.options.callbacks.onbeforeload === "function") {
                         self.options.callbacks.onbeforeload(self);
                     }
 
-                    self.busy = true; // Fetch
+                    self.busy = true;
 
+                    // Fetch
                     fetch(self.url).then(function (res) {
                         return res.json();
                     }).then(function (json) {
@@ -141,8 +145,8 @@ var VuePixabayImageCollection = // Pixabay limit
                                 }
                             }
                         }
-
                         return json;
+
                     }).then(function (json) {
                         // Trigger onload callback
                         if (self.options.callbacks.onload && typeof self.options.callbacks.onload === "function") {
@@ -153,12 +157,13 @@ var VuePixabayImageCollection = // Pixabay limit
                     }).then(function (json) {
                         self.busy = false;
                         return json;
+
                     }).then(function (json) {
                         if (self.total <= self.items.length) {
                             self.allImagesLoaded = true;
                         }
-
                         return json;
+
                     });
                 },
 
