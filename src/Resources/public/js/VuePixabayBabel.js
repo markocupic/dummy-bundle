@@ -182,8 +182,9 @@ var VuePixabayImageCollection = // Pixabay limit
                  */
                 onLoadMore: function onLoadMore() {
                     var self = this;
-                    self.setSearchParam('page', self.getSearchParam('page') + 1); // Trigger onchange callback
+                    self.setSearchParam('page', self.getSearchParam('page') + 1);
 
+                    // Trigger onchange callback
                     if (self.options.callbacks.onloadmore && typeof self.options.callbacks.onloadmore === "function") {
                         self.options.callbacks.onloadmore(self);
                     }
