@@ -1,5 +1,7 @@
 # markocupic/dummy-bundle
-Use this bundle for building up contao bundles.
+Use this bundle for learning to code contao frontend modules.
+***Minimum requirement is contao >=4.8!***
+
 
 The bundle contains 3 Contao Frontend Modules
 * "Hello world" dummy module
