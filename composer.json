@@ -1,6 +1,6 @@
 {
   "name": "markocupic/dummy-bundle",
-  "description": "Contao dummy bundles.",
+  "description": "Contao dummy frontend modules.",
   "keywords": [
     "contao 4",
     "vue.js",
