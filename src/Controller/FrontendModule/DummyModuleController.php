@@ -60,8 +60,8 @@ class DummyModuleController extends AbstractFrontendModuleController
     {
         $this->page = $page;
 
-        // Get rootDir
-        $this->projectDir = System::getContainer()->getParameter('kernel.project_dir');
+        // Get the project dir (TL_ROOT is deprecated)
+        $this->projectDir = $this->getParameter('kernel.project_dir');
 
         // Call the parent method
         return parent::__invoke($request, $model, $section, $classes);
@@ -147,7 +147,7 @@ class DummyModuleController extends AbstractFrontendModuleController
             $template->userText = $translator->trans('MSC.dummy_module_logged_in_as_fe_user_text', [implode(' ', [$user->firstname, $user->lastname]), $user->email], 'contao_default');
         }
 
-        // Get the contao scope (TL_MODE will be deprecated in future releases)
+        // Get the contao scope (TL_MODE is deprecated)
         $scope = $translator->trans('MSC.dummy_module_no_scope_text', [], 'contao_default');
         $scope = $this->isFrontend() ? $translator->trans('MSC.dummy_module_scope_frontend_text', [], 'contao_default') : $scope;
         $template->scope = $scope;
