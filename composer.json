@@ -6,8 +6,9 @@
     "vue.js",
     "pixabay",
     "bundle",
-    "skeleton",
-    "installation: download the package as a zip-file from github and upload it with contao manager"
+    "dummy bundle",
+    "hello world",
+    "skeleton"
   ],
   "type": "contao-bundle",
   "license": "MIT",
