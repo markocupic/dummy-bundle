@@ -7,15 +7,14 @@
 
 <div id="vueDummyModule">
 
-    <div v-if="response.post.textarea"><?= $this->trans('MSC.dummy_module_you_posted_text', [], 'contao_default') ?>:{{br}}
-        <div class="alert alert-success" role="alert">
-            {{ response.post.textarea }}
-        </div>
+    <h1><?= $this->trans('MSC.dummy_module_image_gallery_headline', [], 'contao_default') ?></h1>
+
+    <button v-on:click="loadImages"><?= $this->trans('MSC.dummy_module_load_image_button_lbl', [], 'contao_default') ?></button>
+
+    <div v-if="images" class="row mt-5 image-gallery">
+        <div v-for="(image, index) in images" v-html="image" class="col-md-4"></div>
     </div>
 
-    <?= $this->textarea ?>
-    <p><?= $this->trans('MSC.dummy_module_text_field_lbl.1', [], 'contao_default') ?></p>
-    <button v-on:click="buttonClick"><?= $this->trans('MSC.dummy_module_button_lbl', [], 'contao_default') ?></button>
 
 </div>
 
@@ -24,9 +23,7 @@
     new Vue({
         el: '#vueDummyModule',
         data: {
-            response: {
-                post: {}
-            },
+            images: [],
         },
         created: function created() {
             //
@@ -34,32 +31,32 @@
         methods: {
 
             /**
-             * Using fetch & pure js
+             * Load images from server
              */
-            buttonClick: function buttonClick() {
+            loadImages: function loadImages() {
 
                 let self = this;
 
                 let data = new FormData();
                 data.append( "REQUEST_TOKEN", requestToken );
-                data.append( "textarea", document.querySelector('#ctrl_myTextarea').value );
+                data.append( "action", 'loadImages' );
                 fetch(window.location.href,
-                    {
-                        method: "POST",
-                        body: data,
-                        headers:{
-                            // Set x-requested-with header,
-                            // thus Contao\Environment::get('isAjaxRequest') will
-                            // recognize the ajax request
-                            'x-requested-with': 'XMLHttpRequest'
-                        },
-                    })
-                    .then(function(res){ return res.json(); })
-                    .then(function(json){
-                        let value = json['data']['post']['textarea'] != null ? json['data']['post']['textarea'] : '';
-                        // Set new/overwrite property
-                        self.$set(self.response.post, 'textarea', value);
-                    });
+                        {
+                            method: "POST",
+                            body: data,
+                            headers:{
+                                // Set x-requested-with header,
+                                // thus Contao\Environment::get('isAjaxRequest') will
+                                // recognize the ajax request
+                                'x-requested-with': 'XMLHttpRequest'
+                            },
+                        })
+                .then(function(res){ return res.json(); })
+                .then(function(json){
+                    let images = json['data']['images'] != null ? json['data']['images'] : [];
+                    // Add images
+                    images.forEach(element => {self.images.push(atob(element))});
+                });
             },
 
         }

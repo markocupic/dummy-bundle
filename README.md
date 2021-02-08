@@ -5,7 +5,7 @@ Use this bundle for learning to code contao frontend modules.
 
 The bundle contains 3 Contao Frontend Modules
 * "Hello world" dummy module
-* Vue.js dummy module
+* Vue.js dummy module (vue image download)
 * Vue.js pixabay image collection module (requires pixabay API-Key https://pixabay.com/api/docs/)
 
 ![Alt text](src/Resources/readme/readme_pixabay_module.png?raw=true "Pixabay image collection module")
