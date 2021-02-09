@@ -75,23 +75,22 @@ class VueDummyModuleController extends AbstractFrontendModuleController
         /** @var Environment $environmentAdapter */
         $environmentAdapter = $this->get('contao.framework')->getAdapter(Environment::class);
 
+        /** @var Input $inputAdapter */
+        $inputAdapter = $this->get('contao.framework')->getAdapter(Input::class);
+
         // Handle ajax requests
         if ($environmentAdapter->get('isAjaxRequest')) {
-            $this->handleAjax();
-            exit();
+            if ($inputAdapter->post('action') && method_exists(self::class, $inputAdapter->post('action'))) {
+                /** @var JsonResponse $response */
+                $response = $this->{$inputAdapter->post('action')}();
+                $response->send();
+                exit();
+            }
+
+            throw new \BadMethodCallException(sprintf('Could not find %s::%s', self::class, $inputAdapter->post('action')));
         }
 
         return $template->getResponse();
-    }
-
-    protected function handleAjax(): void
-    {
-        $inputAdapter = $this->get('contao.framework')->getAdapter(Input::class);
-
-        if ($inputAdapter->post('action')) {
-            $json = $this->{$inputAdapter->post('action')}();
-            $json->send();
-        }
     }
 
     protected function loadImages(): JsonResponse
@@ -137,9 +136,9 @@ class VueDummyModuleController extends AbstractFrontendModuleController
             $arrJson = ['status' => 'invalid csrf token'];
         }
 
-        $json = new JsonResponse();
-        $json->setData($arrJson);
+        $response = new JsonResponse();
+        $response->setData($arrJson);
 
-        return $json;
+        return $response;
     }
 }
