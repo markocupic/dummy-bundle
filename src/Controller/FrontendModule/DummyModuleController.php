@@ -3,11 +3,13 @@
 declare(strict_types=1);
 
 /*
- * Copyright Marko Cupic <m.cupic@gmx.ch>, 2019
- * @author Marko Cupic
+ * This file is part of Dummy Bundle.
+ *
+ * (c) Marko Cupic 2021 <m.cupic@gmx.ch>
+ * @license MIT
+ * For the full copyright and license information,
+ * please view the LICENSE file that was distributed with this source code.
  * @link https://github.com/markocupic/dummy-bundle
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
  */
 
 namespace Markocupic\DummyBundle\Controller\FrontendModule;
@@ -16,6 +18,7 @@ use Contao\Config;
 use Contao\CoreBundle\Controller\FrontendModule\AbstractFrontendModuleController;
 use Contao\CoreBundle\Exception\RedirectResponseException;
 use Contao\CoreBundle\Routing\ScopeMatcher;
+use Contao\CoreBundle\ServiceAnnotation\FrontendModule;
 use Contao\Date;
 use Contao\FormTextField;
 use Contao\FrontendUser;
@@ -27,16 +30,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Security;
-use Contao\CoreBundle\ServiceAnnotation\FrontendModule;
 
 /**
- * Class DummyModuleController
- * @package Markocupic\DummyBundle\Controller\FrontendModule
+ * Class DummyModuleController.
+ *
  * @FrontendModule(category="miscellaneous", type="dummy_module")
  */
 class DummyModuleController extends AbstractFrontendModuleController
 {
-
     /**
      * @var PageModel
      */
@@ -48,13 +49,7 @@ class DummyModuleController extends AbstractFrontendModuleController
     private $projectDir;
 
     /**
-     * Like generate-method in past contao modules
-     * @param Request $request
-     * @param ModuleModel $model
-     * @param string $section
-     * @param array|null $classes
-     * @param PageModel|null $page
-     * @return Response
+     * Like generate-method in past contao modules.
      */
     public function __invoke(Request $request, ModuleModel $model, string $section, array $classes = null, PageModel $page = null): Response
     {
@@ -68,8 +63,7 @@ class DummyModuleController extends AbstractFrontendModuleController
     }
 
     /**
-     * Get subscribed services
-     * @return array
+     * Get subscribed services.
      */
     public static function getSubscribedServices(): array
     {
@@ -85,11 +79,7 @@ class DummyModuleController extends AbstractFrontendModuleController
     }
 
     /**
-     * Like compile-method in past contao modules
-     * @param Template $template
-     * @param ModuleModel $model
-     * @param Request $request
-     * @return null|Response
+     * Like compile-method in past contao modules.
      */
     protected function getResponse(Template $template, ModuleModel $model, Request $request): ?Response
     {
@@ -102,29 +92,26 @@ class DummyModuleController extends AbstractFrontendModuleController
 
         // Generate text field
         $opt = [
-            'id'        => 'myTextField',
-            'name'      => 'myTextField',
-            'label'     => $translator->trans('MSC.dummy_module_text_field_lbl.0', [], 'contao_default'),
+            'id' => 'myTextField',
+            'name' => 'myTextField',
+            'label' => $translator->trans('MSC.dummy_module_text_field_lbl.0', [], 'contao_default'),
             'mandatory' => true,
         ];
 
-        /** @var  FormTextField $widget */
+        /** @var FormTextField $widget */
         $widget = $this->get('contao.framework')->createInstance(FormTextField::class, [$opt]);
 
         // Preset value
-        if (!$request->isMethod('post') && $request->request->get($widget->name) == '')
-        {
+        if (!$request->isMethod('post') && '' === $request->request->get($widget->name)) {
             $widget->value = $translator->trans('MSC.dummy_module_text_1', [], 'contao_default');
         }
 
         // Redirect if the form has been submitted
-        if ($request->isMethod('post') && $request->request->get($widget->name) !== '')
-        {
+        if ($request->isMethod('post') && '' !== $request->request->get($widget->name)) {
             $widget->validate();
-            if (!$widget->hasErrors())
-            {
-                if (null !== ($redirectPage = PageModel::findByPk($model->jumpTo)))
-                {
+
+            if (!$widget->hasErrors()) {
+                if (null !== ($redirectPage = PageModel::findByPk($model->jumpTo))) {
                     throw new RedirectResponseException($redirectPage->getAbsoluteUrl());
                 }
             }
@@ -141,8 +128,8 @@ class DummyModuleController extends AbstractFrontendModuleController
 
         /** @var FrontendUser $user */
         $user = $this->get('security.helper')->getUser();
-        if ($user instanceof FrontendUser)
-        {
+
+        if ($user instanceof FrontendUser) {
             $template->feUserLoggedIn = true;
             $template->userText = $translator->trans('MSC.dummy_module_logged_in_as_fe_user_text', [implode(' ', [$user->firstname, $user->lastname]), $user->email], 'contao_default');
         }
@@ -174,34 +161,30 @@ class DummyModuleController extends AbstractFrontendModuleController
     }
 
     /**
-     * Identify the Contao scope (TL_MODE) of the current request
-     * @return bool
+     * Identify the Contao scope (TL_MODE) of the current request.
      */
     protected function isFrontend(): bool
     {
-        if ($this->get('contao.framework')->isInitialized() && $this->get('request_stack')->getMasterRequest() && !$this->isBackend())
-        {
+        if ($this->get('contao.framework')->isInitialized() && $this->get('request_stack')->getMasterRequest() && !$this->isBackend()) {
             return true;
         }
+
         return false;
     }
 
     /**
-     * Identify the Contao scope (TL_MODE) of the current request
-     * @return bool
+     * Identify the Contao scope (TL_MODE) of the current request.
      */
     protected function isBackend(): bool
     {
-        if ($this->get('contao.framework')->isInitialized())
-        {
-            if ($this->get('request_stack') !== null)
-            {
-                if ($this->get('request_stack')->getMasterRequest() !== null)
-                {
+        if ($this->get('contao.framework')->isInitialized()) {
+            if (null !== $this->get('request_stack')) {
+                if (null !== $this->get('request_stack')->getMasterRequest()) {
                     return $this->get('contao.routing.scope_matcher')->isBackendRequest($this->get('request_stack')->getMasterRequest());
                 }
             }
         }
+
         return false;
     }
 }

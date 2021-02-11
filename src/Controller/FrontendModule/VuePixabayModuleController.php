@@ -15,7 +15,6 @@ declare(strict_types=1);
 namespace Markocupic\DummyBundle\Controller\FrontendModule;
 
 use Contao\CoreBundle\Controller\FrontendModule\AbstractFrontendModuleController;
-use Contao\Environment;
 use Contao\ModuleModel;
 use Contao\PageModel;
 use Contao\System;
@@ -50,7 +49,6 @@ class VuePixabayModuleController extends AbstractFrontendModuleController
      */
     protected function getResponse(Template $template, ModuleModel $model, Request $request): ?Response
     {
-      
         // Load language file
         System::loadLanguageFile('default');
 

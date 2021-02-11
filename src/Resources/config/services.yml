@@ -8,6 +8,8 @@ services:
     public: true
 
   Markocupic\DummyBundle\Controller\FrontendModule\VueDummyModuleController:
+    arguments:
+    - '@session'
     calls:
     - ['setContainer', ['@Psr\Container\ContainerInterface']]
     tags:
@@ -22,3 +24,11 @@ services:
     - { name: contao.frontend_module, category: dummy }
     - { name: container.service_subscriber }
     public: true
+
+  # Add a session bag
+  markocupic.dummy_bundle.session:
+    class: Markocupic\DummyBundle\Session\Attribute\ArrayAttributeBag
+    arguments:
+      - _markocupic_dummy_bundle_attributes
+    calls:
+      - [setName, [markocupic_dummy_bundle]]
